@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebAPI.Service
 {
-    public static class Cryptography
+    public static class CryptographyService
     {
         private const string ENCRYPTION_KEY = "A60934D8C1A2AC3A69642A3902198";
         private readonly static byte[] SALT = new byte[] { 99, 52, 2, 24, 51, 67, 22, 88 };
@@ -37,22 +37,5 @@ namespace WebAPI.Service
 
     }
 }
-//
-/*
- * {
- * "ShrinkUrlSettings": {
-    "BaseUrl": "https://example.co/",
-    "MaxLength": 6
-    }
-    "Logging": {
-        "LogLevel":{
-            "Default": "Information",
-            "Microsoft": "Warning",
-            "Microsoft.Hosting.Lifetime": "Information"
-     }
-    },
 
-    "AllowedHosts": "*"
-   }
-*/
 

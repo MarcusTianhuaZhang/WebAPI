@@ -4,7 +4,6 @@
     {
         public string BaseUrl { get; set; }
 
-        public string OriginalUrl { get; set; }
         public int MaxLength { get; set; }
 
 
