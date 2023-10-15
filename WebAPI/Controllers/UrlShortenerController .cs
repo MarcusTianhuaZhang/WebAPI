@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
             _shrinkUrlSettings = shrinkUrlSettings.Value;
         }
 
-        [HttpPost]
+        [HttpPost("shorten")]
         public ActionResult<string> ShortenUrl([FromBody] string originalUrl)
         {
             if (string.IsNullOrEmpty(originalUrl))
@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
             Regex Rgx = new Regex(Pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             if (!Rgx.IsMatch(originalUrl))
             {
-                throw new ArgumentException("Original URL format is invalid.");
+                throw new FormatException("Original URL format is invalid.");
 
             }
 
@@ -39,6 +39,34 @@ namespace WebAPI.Controllers
             string shortenedUrl = $"{_shrinkUrlSettings.BaseUrl}/{encryptedUrl}";
 
             return Ok(shortenedUrl);
+        }
+        [HttpGet("settings")]
+        public ActionResult<ShrinkUrlSettings> GetUrlShortenerSettings()
+        {
+            return Ok(_shrinkUrlSettings);
+        }
+
+        [HttpPut("settings")]
+        public ActionResult UpdateUrlShortenerSettings([FromBody] ShrinkUrlSettings newSettings)
+        {
+            if (newSettings == null)
+            {
+                return BadRequest("Invalid settings provided.");
+            }
+
+            _shrinkUrlSettings.BaseUrl = newSettings.BaseUrl;
+            _shrinkUrlSettings.MaxLength = newSettings.MaxLength;
+            // Optionally, add validation logic here to ensure new settings are valid.
+            return Ok(_shrinkUrlSettings);
+        }
+
+        [HttpDelete("settings")]
+        public ActionResult DeleteUrlShortenerSettings()
+        {
+            // Perform any necessary cleanup or validation before deleting the settings.
+            _shrinkUrlSettings.BaseUrl = null;
+            _shrinkUrlSettings.MaxLength = 0;
+            return NoContent();
         }
     }
 }
