@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace WebAPI.Service
 {
@@ -7,9 +8,11 @@ namespace WebAPI.Service
         
         public static bool ValidateURL(string originalUrl)
         {
-            string Pattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+            /*string Pattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
             Regex Rgx = new Regex(Pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            return Rgx.IsMatch(originalUrl);
+            return Rgx.IsMatch(originalUrl);*/
+
+           return Uri.TryCreate(originalUrl, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttps;
 
         }
     }

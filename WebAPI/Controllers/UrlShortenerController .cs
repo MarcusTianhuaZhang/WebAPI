@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.Graph.Models;
 using System;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
@@ -36,14 +37,16 @@ namespace WebAPI.Controllers
             }
 
             string encryptedUrl = CryptographyService.EncryptUrl(originalUrl, _shrinkUrlSettings.MaxLength);
-            string shortenedUrl = $"{_shrinkUrlSettings.BaseUrl}/{encryptedUrl}";
-
+            string shortenedUrl = $"{_shrinkUrlSettings.BaseUrl}{encryptedUrl}";
+            Console.WriteLine(Ok(shortenedUrl));
             return Ok(shortenedUrl);
         }
 
         [HttpGet("settings")]
         public ActionResult<ShrinkUrlSettings> GetUrlShortenerSettings()
         {
+            Console.WriteLine(Ok(_shrinkUrlSettings));
+
             return Ok(_shrinkUrlSettings);
         }
 
@@ -71,32 +74,11 @@ namespace WebAPI.Controllers
             return Ok(_shrinkUrlSettings);
         }
 
-        /*[HttpPatch("settings")]
-        public ActionResult PartialUpdateUrlShortenerSettings([FromBody] ShrinkUrlSettings newSettings)
-        {
-            *//*if (newSettings == null)
-            {
-                return BadRequest("Invalid settings provided.");
-            }*//*
-
-            if (newSettings.BaseUrl != null && URLValidationService.ValidateURL(newSettings.BaseUrl))
-            {
-                _shrinkUrlSettings.BaseUrl = newSettings.BaseUrl;
-            }
-
-            if (newSettings.MaxLength > 0)
-            {
-                _shrinkUrlSettings.MaxLength = newSettings.MaxLength;
-            }
-
-            return Ok(_shrinkUrlSettings);
-        }*/
-
         [HttpDelete("settings")]
         public ActionResult DeleteUrlShortenerSettings()
         {
             // Perform any necessary cleanup or validation before deleting the settings.
-            _shrinkUrlSettings.BaseUrl = null;
+            _shrinkUrlSettings.BaseUrl = "https://example.co/";
             _shrinkUrlSettings.MaxLength = 0;
             return NoContent();
         }
