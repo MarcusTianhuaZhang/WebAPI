@@ -45,8 +45,6 @@ namespace WebAPI.Controllers
         [HttpGet("settings")]
         public ActionResult<ShrinkUrlSettings> GetUrlShortenerSettings()
         {
-            Console.WriteLine(Ok(_shrinkUrlSettings));
-
             return Ok(_shrinkUrlSettings);
         }
 
